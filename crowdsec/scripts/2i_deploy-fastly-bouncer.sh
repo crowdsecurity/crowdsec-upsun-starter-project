@@ -35,16 +35,22 @@ source "$CROWDSEC_UTILS_SCRIPT" || {
 # Main deployment flow
 main() {
     msg info "Starting Fastly bouncer deployment"  
-    setup_python_environment
-    install_and_setup_bouncer
-        
-    # Test configuration
-    if test_fastly_bouncer_config; then
-        msg succ "Fastly bouncer deployed successfully!"
-        return 0
+    LOCKFILE="${TMP_DIR}/LAST_INSTALLED_FASTLY${REINSTALL_SUFFIX}.lock"
+    if [[ ! -f "$LOCKFILE" ]]; then 
+        setup_python_environment
+        install_and_setup_bouncer
+            
+        # Test configuration
+        if test_fastly_bouncer_config; then
+            msg succ "Fastly bouncer deployed successfully!"
+            return 0
+        else
+            msg warn "Deployment completed with warnings"
+            return 1
+        fi
+        touch "$LOCKFILE"
     else
-        msg warn "Deployment completed with warnings"
-        return 1
+        msg info "Fastly bouncer already installed, skipping installation."
     fi
     
     start_fastly_bouncer

@@ -36,22 +36,30 @@ source "$CROWDSEC_UTILS_SCRIPT" || {
 
 # Main deployment flow
 main() {
-    msg info "Starting Cloudflare bouncer deployment"  
-    download_bouncer_release
-    install_bouncer
+    msg info "Starting Cloudflare bouncer deployment" 
+    LOCKFILE="${TMP_DIR}/LAST_INSTALLED_FASTLY${REINSTALL_SUFFIX}.lock"
     
-    # Setup bouncer: generating worker on CF + filling config with CF zones config
-    setup_cloudflare_worker
-    
-    # Test configuration
-    if "$BOUNCER_BIN_FULL_PATH" -c "$BOUNCER_CONFIG_FULL_PATH" -t 2>&1 | grep -q "config is valid"; then
-        msg succ "Cloudflare bouncer deployed successfully!"
-        return 0
+    if [[ ! -f "$LOCKFILE" ]]; then 
+        download_bouncer_release
+        install_bouncer
+        
+        # Setup bouncer: generating worker on CF + filling config with CF zones config
+        setup_cloudflare_worker
+        
+        # Test configuration
+        if "$BOUNCER_BIN_FULL_PATH" -c "$BOUNCER_CONFIG_FULL_PATH" -t 2>&1 | grep -q "config is valid"; then
+            msg succ "Cloudflare bouncer deployed successfully!"
+            return 0
+        else
+            msg warn "Deployment completed with warnings"
+            return 1
+        fi
+        touch "$LOCKFILE"
     else
-        msg warn "Deployment completed with warnings"
-        return 1
+        msg info "Cloudflare bouncer already installed, skipping installation."
     fi
-    
+
+    start_cloudflare_bouncer
     # Show deployment summary
     show_deployment_summary
 }
@@ -133,6 +141,22 @@ setup_cloudflare_worker() {
     else
         msg err "Failed to generate Cloudflare Worker configuration and deploy"
         return 1
+    fi
+}
+
+start_cloudflare_bouncer() {
+    msg info "Starting Cloudflare bouncer service..."
+    msg info "Reloading systemd user services..."
+    systemctl --user daemon-reload
+
+    msg info "Activating crowdsec-cloudflare-worker-bouncer with user..."
+    systemctl --user enable crowdsec-cloudflare-worker-bouncer.service
+
+    msg info "Starting crowdsec-cloudflare-worker-bouncer with user..."
+    if systemctl --user start crowdsec-cloudflare-worker-bouncer.service; then
+        msg succ "crowdsec-cloudflare-worker-bouncer started with user"
+    else
+        msg err "Failed to start crowdsec-cloudflare-worker-bouncer with user"
     fi
 }
 
