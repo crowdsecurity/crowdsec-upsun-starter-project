@@ -15,8 +15,6 @@ mkdir -p $CROWDSEC_DIR
 
 # Download and setup CrowdSec
 cd $TMP_DIR
-## deleting old crowdsec directories
-rm crowdsec* -R
 
 ## CrowdSec Security Engine Install
 ### Checking if we need to re-install CrowdSec
@@ -24,6 +22,9 @@ LOCKFILE="${TMP_DIR}/LAST_INSTALLED_${CROWDSEC_VERSION}${REINSTALL_SUFFIX}.lock"
 if [[ ! -f "$LOCKFILE" ]]; then
     # If the specific lock file does NOT exist, delete all LAST_INSTALLED_*.lock files
     rm -f LAST_INSTALLED_*.lock
+
+    ## deleting old crowdsec directories
+    rm -Rf crowdsec*
 
     ### Retrieving CrowdSec release
     wget "https://github.com/crowdsecurity/crowdsec/releases/download/${CROWDSEC_VERSION}/crowdsec-release.tgz"
@@ -38,7 +39,7 @@ if [[ ! -f "$LOCKFILE" ]]; then
     cp crowdsec/crowdsec-release.tgz .
     tar -xvzf crowdsec-release.tgz
     ## deleting release archives
-    rm crowdsec-release.tgz
+    rm -f crowdsec-release.tgz
 
     ### CrowdSec setup
     cp ${SCRIPTS_DIR}/1a_crowdsec-setup.sh crowdsec-*/
