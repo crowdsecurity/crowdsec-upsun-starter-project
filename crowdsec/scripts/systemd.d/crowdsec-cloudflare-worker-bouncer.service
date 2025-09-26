@@ -11,7 +11,6 @@ ExecStartPre=/app/cs/usr/local/bin/crowdsec-cloudflare-worker-bouncer -c /app/cs
 ExecStart=/app/cs/usr/local/bin/crowdsec-cloudflare-worker-bouncer -c /app/cs/etc/crowdsec/bouncers/crowdsec-cloudflare-worker-bouncer.yaml
 Restart=always
 RestartSec=60
-User=%i
 
 [Install]
 WantedBy=multi-user.target
