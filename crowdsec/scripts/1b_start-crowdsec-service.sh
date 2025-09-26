@@ -4,7 +4,7 @@ echo "Reload Services"
 systemctl --user daemon-reload
 
 echo "Activating crowdsec with user"
-systemctl --user enable crowdsec.service
+systemctl --user enable --force crowdsec.service
 
 echo "Starting crowdsec with user"
 systemctl --user start crowdsec.service

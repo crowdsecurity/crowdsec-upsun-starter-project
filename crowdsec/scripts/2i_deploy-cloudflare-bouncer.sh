@@ -150,7 +150,7 @@ start_cloudflare_bouncer() {
     systemctl --user daemon-reload
 
     msg info "Activating crowdsec-cloudflare-worker-bouncer with user..."
-    systemctl --user enable crowdsec-cloudflare-worker-bouncer.service
+    systemctl --user enable --force crowdsec-cloudflare-worker-bouncer.service
 
     msg info "Starting crowdsec-cloudflare-worker-bouncer with user..."
     if systemctl --user start crowdsec-cloudflare-worker-bouncer.service; then

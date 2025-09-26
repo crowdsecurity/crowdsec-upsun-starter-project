@@ -64,4 +64,4 @@ else
 fi
 
 ## Starting CrowdSec service
-bash 1b_start-crowdsec-service.sh >> $DEPLOY_LOG_FILE 2>&1
+bash ${SCRIPTS_DIR}/1b_start-crowdsec-service.sh >> $DEPLOY_LOG_FILE 2>&1

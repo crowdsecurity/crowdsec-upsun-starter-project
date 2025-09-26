@@ -182,7 +182,7 @@ start_fastly_bouncer() {
     systemctl --user daemon-reload
 
     msg info "Activating crowdsec-fastly-bouncer with user..."
-    systemctl --user enable crowdsec-fastly-bouncer.service
+    systemctl --user enable --force crowdsec-fastly-bouncer.service
 
     msg info "Starting crowdsec-fastly-bouncer with user..."
     if systemctl --user start crowdsec-fastly-bouncer.service; then
