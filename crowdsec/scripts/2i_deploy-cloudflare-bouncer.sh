@@ -49,12 +49,12 @@ main() {
         # Test configuration
         if "$BOUNCER_BIN_FULL_PATH" -c "$BOUNCER_CONFIG_FULL_PATH" -t 2>&1 | grep -q "config is valid"; then
             msg succ "Cloudflare bouncer deployed successfully!"
+            touch "$LOCKFILE"
             return 0
         else
             msg warn "Deployment completed with warnings"
             return 1
         fi
-        touch "$LOCKFILE"
     else
         msg info "Cloudflare bouncer already installed, skipping installation."
     fi

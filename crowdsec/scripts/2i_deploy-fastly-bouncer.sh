@@ -43,12 +43,12 @@ main() {
         # Test configuration
         if test_fastly_bouncer_config; then
             msg succ "Fastly bouncer deployed successfully!"
+            touch "$LOCKFILE"
             return 0
         else
             msg warn "Deployment completed with warnings"
             return 1
         fi
-        touch "$LOCKFILE"
     else
         msg info "Fastly bouncer already installed, skipping installation."
     fi
