@@ -168,7 +168,9 @@ test_fastly_bouncer_config() {
     msg info "=== Testing final configuration ==="
         
     if [ -f "$BOUNCER_CONFIG_FULL_PATH" ]; then
-       # check that the config file doesn't contain the default values: 
+        # check that the config file doesn't contain the default values: 
+        msg info "Configuration file found: $BOUNCER_CONFIG_FULL_PATH"
+        # TODO: Add actual configuration validation here
     else
         msg err "Configuration file not found: $BOUNCER_CONFIG_FULL_PATH"
         return 1
