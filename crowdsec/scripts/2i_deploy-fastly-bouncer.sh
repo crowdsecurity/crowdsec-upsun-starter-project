@@ -110,6 +110,7 @@ install_and_setup_bouncer() {
     
     # Copy Fastly bouncer to its the bin directory
     msg info "Copying Fastly bouncer to bin directory..."
+    assert_can_write_to_path "$BIN_DIR/crowdsec-fastly-bouncer"
     cp "$VENV_PATH/bin/crowdsec-fastly-bouncer" "$BIN_DIR/"
 
     # Copy the bouncer template configuration file if it exists
