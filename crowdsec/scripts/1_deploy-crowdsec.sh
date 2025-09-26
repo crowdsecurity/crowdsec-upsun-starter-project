@@ -29,12 +29,6 @@ if [[ ! -f "$LOCKFILE" ]]; then
     ### Retrieving CrowdSec release
     wget "https://github.com/crowdsecurity/crowdsec/releases/download/${CROWDSEC_VERSION}/crowdsec-release.tgz"
     
-        #### Alternative uncomment to compile (requieres those in composable stack : "go", "rsyslog", "netcat", "gnumake", "tcpdump")
-        # git clone https://github.com/crowdsecurity/crowdsec.git -b http-datasource-get-head
-        # cd crowdsec
-        # GOMODCACHE=/app/cs/tmp/pkg/mod GOPATH=/app/cs/tmp/go GOCACHE=/app/cs/tmp/go-build make release BUILD_RE2_WASM=1
-        # cd ..
-    
     ## Extracting CrowdSec release
     cp crowdsec/crowdsec-release.tgz .
     tar -xvzf crowdsec-release.tgz
@@ -56,6 +50,7 @@ if [[ ! -f "$LOCKFILE" ]]; then
     if systemctl --user is-active --quiet crowdsec; then
         # Create the lock file to indicate successful install
         if [[ -n "$LOCKFILE" ]]; then
+            assert_can_write_to_path "$LOCKFILE"
             touch "$LOCKFILE"
         fi
     fi

@@ -43,6 +43,7 @@ main() {
         # Test configuration
         if test_fastly_bouncer_config; then
             msg succ "Fastly bouncer deployed successfully!"
+            assert_can_write_to_path "$LOCKFILE"
             touch "$LOCKFILE"
             return 0
         else

@@ -33,7 +33,8 @@ export BIN_DIR="${PLATFORM_APP_DIR}/cs/usr/local/bin"
 
 export VAR_DIR="${PLATFORM_APP_DIR}/cs/var"
 export LOG_DIR="${VAR_DIR}/log"
-export TMP_DIR="${VAR_DIR}/tmp"
+
+export TMP_DIR="${PLATFORM_APP_DIR}/cs/tmp"
 
 export SCRIPTS_DIR="${PLATFORM_APP_DIR}/scripts"
 

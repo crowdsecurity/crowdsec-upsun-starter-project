@@ -49,6 +49,7 @@ main() {
         # Test configuration
         if "$BOUNCER_BIN_FULL_PATH" -c "$BOUNCER_CONFIG_FULL_PATH" -t 2>&1 | grep -q "config is valid"; then
             msg succ "Cloudflare bouncer deployed successfully!"
+            assert_can_write_to_path "$LOCKFILE"
             touch "$LOCKFILE"
             return 0
         else
