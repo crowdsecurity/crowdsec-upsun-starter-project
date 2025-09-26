@@ -25,9 +25,9 @@ applications:
             build: |
                 set -eu
                 ./scripts/0_build.sh
+                ./scripts/1_deploy-crowdsec.sh
             deploy: |
                 set -eu
-                ./scripts/1_deploy-crowdsec.sh
                 ./scripts/2_deploy-bouncer.sh
         web:
             upstream:
