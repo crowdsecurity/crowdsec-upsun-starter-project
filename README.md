@@ -1,5 +1,7 @@
 # CrowdSec Security Engine for Upsun
 
+> ℹ️ [beta] This is the first iteration of this starter kit, you can propose improvements for your specific use case and additional remediation components by creating an issue or pull request.
+
 ## Why install CrowdSec in UpSun
 
 CrowdSec will provides real-time detection of malicious behavior that reaches your linked projects, automatically analyzing HTTP logs for attack patterns and suspicious activities. You benefit from community-curated blocklists and threat intelligence from the global CrowdSec network, ensuring proactive protection against emerging threats before they impact your applications.
